@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Источники цен на рыбу</title>
+<meta name="description" content="Обзор бесплатных и платных источников оптовых цен на рыбное сырьё в России: что есть, как выглядят данные, сколько стоит.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap">
+<style>
+/* Одна колонка ~960px: суть → сравнение данных двух источников → все источники → покрытие → ограничения. Холодная гамма. */
+:root{
+  --bg:#F3F7F9; --surface:#FFFFFF; --ink:#10243A; --muted:#5A6B7C; --line:#D9E3EA;
+  --accent:#0B7A85; --accent-soft:#DDF0F1;
+  --ok:#1F7A4D; --ok-bg:#E2F3EA; --warn:#9A5B00; --warn-bg:#FBEFD9; --no:#A33A3A; --no-bg:#F8E3E3;
+  --line2:#E07A3F; --paid:#5B4BB5; --paid-soft:#ECE9FA;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root{
+  --bg:#0D1822; --surface:#14232F; --ink:#E6EEF3; --muted:#9AAAB8; --line:#25384A;
+  --accent:#4CC3CC; --accent-soft:#163A40;
+  --ok:#6FD39E; --ok-bg:#16352A; --warn:#F0B95C; --warn-bg:#3A2D14; --no:#F08B8B; --no-bg:#3C1E22;
+  --line2:#F29A64; --paid:#AFA3F5; --paid-soft:#272347; color-scheme:dark }}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 56px;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15}
+h2{font-size:20px;margin-bottom:14px}
+h3{font-size:16px}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lead{font-size:18px;color:var(--muted);max-width:62ch;margin-top:12px}
+.num{font-variant-numeric:tabular-nums}
+.note{font-size:14px;color:var(--muted);margin-top:10px;max-width:80ch}
+
+/* суть */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile b{font-family:var(--f-display);font-weight:600;font-size:22px}
+.tile small{color:var(--muted);font-size:14px}
+
+/* метки источников */
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.tag.free{background:var(--accent-soft);color:var(--accent)}
+.tag.paid{background:var(--paid-soft);color:var(--paid)}
+
+/* таблицы */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+tr.group td{background:var(--bg);font-weight:600;font-size:13px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;padding-block:7px}
+td.src{font-weight:600}
+td.src a{color:var(--ink);text-decoration-color:var(--line)}
+td .sub{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.no{background:var(--no-bg);color:var(--no)}
+.legend-chips{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+
+/* сравнение цен */
+table.cmp{min-width:560px}
+table.cmp th.free{color:var(--accent)}
+table.cmp th.paid{color:var(--paid)}
+table.cmp td.v{font-variant-numeric:tabular-nums;font-weight:600;font-size:16px}
+table.cmp td .sub{font-weight:400}
+
+/* две карточки источников */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.free{border-top:3px solid var(--accent)}
+.card.paid{border-top:3px solid var(--paid)}
+.card .head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.card dt{color:var(--muted)}
+.card dd{margin:0}
+table.mini{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;font-size:14px}
+.mini col.c1{width:58%} .mini col.c2{width:26%} .mini col.c3{width:16%}
+.mini th,.mini td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.mini th:first-child,.mini td:first-child{padding-left:0}
+.mini th:last-child,.mini td:last-child{padding-right:0}
+.mini th{font-size:11px}
+.mini td:last-child,.mini th:last-child{text-align:right;white-space:nowrap}
+.mini tr:last-child td{border-bottom:0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+svg text{font-family:var(--f-body);fill:var(--muted);font-size:13px}
+
+table.cov{min-width:420px}
+table.cov td:not(:first-child),table.cov th:not(:first-child){text-align:center;width:150px}
+.y{color:var(--ok);font-weight:700}
+.n{color:var(--no);opacity:.7}
+.p{color:var(--warn);font-size:13px;font-weight:600}
+
+.warns{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.warns div{border-left:3px solid var(--warn);padding:4px 0 4px 14px;font-size:15px;min-width:0}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+footer a{color:var(--muted)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:760px){ .pair{grid-template-columns:1fr} }
+@media (max-width:640px){
+  .facts,.warns{grid-template-columns:1fr}
+  .wrap{gap:34px;padding-top:28px;padding-bottom:40px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Закупочная аналитика · обзор от 19.10.2026</div>
+    <h1>Где брать оптовые цены на рыбное сырьё</h1>
+    <p class="lead">Обзор того, что удалось найти: какие источники есть, как выглядят их данные и сколько они стоят.</p>
+  </header>
+
+  <section class="facts" aria-label="Главное">
+    <div class="tile">
+      <span class="eyebrow">Бесплатно</span>
+      <b class="num">12 позиций</b>
+      <small>Минтай, треска, пикша, сельдь, скумбрия, камбала. Раз в неделю, 3 региона (Нацрыбресурс)</small>
+    </div>
+    <div class="tile">
+      <span class="eyebrow">Платно</span>
+      <b class="num">от 9 000 ₽</b>
+      <small>за 3 месяца. Широкий ассортимент с разделкой и размером есть только в платных источниках</small>
+    </div>
+    <div class="tile">
+      <span class="eyebrow">Цены реальных сделок</span>
+      <b>Не найдены</b>
+      <small>Биржи регистрируют сделки с рыбой, но цены не публикуют ни бесплатно, ни за деньги</small>
+    </div>
+  </section>
+
+  <section>
+    <h2>Как выглядят данные: бесплатный и платный источник</h2>
+    <p class="note" style="margin:0 0 12px">Цены на одни и те же виды почти за одну дату. <span class="tag free">Нацрыбресурс</span> даёт одну цену на вид и регион. <span class="tag paid">РК-Профи</span> даёт много предложений разных поставщиков; здесь показана средняя (медиана) и их число.</p>
+    <div class="tbl">
+      <table class="cmp">
+        <thead><tr><th>Вид, регион</th><th class="free">Нацрыбресурс<br>02.12.2024</th><th class="paid">РК-Профи<br>07–13.11.2024</th></tr></thead>
+        <tbody>
+          <tr><td>Минтай, Дальний Восток</td><td class="v">138 ₽</td><td class="v">130 ₽ <span class="sub">16 предложений, 95–145</span></td></tr>
+          <tr><td>Минтай, Москва</td><td class="v">155 ₽</td><td class="v">156 ₽ <span class="sub">47 предложений, 125–220</span></td></tr>
+          <tr><td>Треска тихоокеанская, Дальний Восток</td><td class="v">260 ₽</td><td class="v">255 ₽ <span class="sub">10 предложений</span></td></tr>
+          <tr><td>Пикша, Северо-Запад</td><td class="v">345 ₽</td><td class="v">335 ₽ <span class="sub">43 предложения</span></td></tr>
+          <tr><td>Сельдь тихоокеанская, Дальний Восток</td><td class="v">135 ₽</td><td class="v">130 ₽ <span class="sub">4 предложения</span></td></tr>
+          <tr><td>Камбала, Дальний Восток</td><td class="v">98 ₽</td><td class="v">120 ₽ <span class="sub">32 предложения</span></td></tr>
+          <tr><td>Скумбрия, Москва</td><td class="v">295 ₽</td><td class="v">365 ₽ <span class="sub">84 предложения</span></td></tr>
+          <tr><td>Горбуша, кета, хек, креветки, кальмары</td><td class="n">нет данных</td><td class="v" style="font-size:15px">есть <span class="sub">сотни предложений</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Цены в ₽ за кг, мороженая продукция. Нацрыбресурс частично опирается на данные РК-Профи, поэтому цифры близки. Расхождения по скумбрии и камбале связаны с тем, что в РК-Профи смешаны разные размеры и разделка.</p>
+
+    <div class="pair">
+      <article class="card free">
+        <div class="head"><h3>Нацрыбресурс</h3><span class="tag free">бесплатно</span></div>
+        <dl>
+          <dt>Что это</dt><dd>Еженедельный PDF госпредприятия с оценкой оптовых цен</dd>
+          <dt>Цена</dt><dd>0 ₽</dd>
+          <dt>Объём</dt><dd>12 позиций, 3 региона</dd>
+          <dt>Ссылка</dt><dd><a href="https://www.nfr.ru/213/" target="_blank" rel="noopener">nfr.ru/213</a></dd>
+        </dl>
+        <div>
+          <div class="eyebrow" style="margin-bottom:6px">Минтай в 2026 году, ₽/кг</div>
+          <div class="legend"><span><i style="background:var(--line2)"></i>Москва</span><span><i style="background:var(--accent)"></i>Дальний Восток</span></div>
+          <svg id="ch" viewBox="0 0 460 230" width="100%" role="img" aria-label="Цена минтая в 2026 году: Дальний Восток с 143 до 210 ₽/кг, Москва со 174 до 255 ₽/кг"></svg>
+        </div>
+        <p class="note" style="margin:0">Скачано и разобрано 42 выпуска. Из них складывается ряд цен по неделям.</p>
+      </article>
+
+      <article class="card paid">
+        <div class="head"><h3>РК-Профи (FishNet)</h3><span class="tag paid">платно</span></div>
+        <dl>
+          <dt>Что это</dt><dd>Платная рассылка портала FishNet: Excel с ценами поставщиков раз в неделю</dd>
+          <dt>Цена</dt><dd class="num">9 000 ₽ за 3 мес., 28 800 ₽ за год</dd>
+          <dt>Объём</dt><dd>179 поставщиков, около 10,7 тыс. строк, вся Россия</dd>
+          <dt>Ссылка</dt><dd><a href="https://www.fishnet.ru/issues/" target="_blank" rel="noopener">fishnet.ru/issues</a>, sales@fishnet.ru</dd>
+        </dl>
+        <div>
+          <div class="eyebrow" style="margin-bottom:6px">Предложений по видам за одну неделю</div>
+          <div class="legend"><span><i style="background:var(--paid)"></i>строк с ценой за кг в образце</span></div>
+          <svg id="bars" viewBox="0 0 460 230" width="100%" role="img" aria-label="Число предложений в образце РК-Профи: креветки 936, форель 392, скумбрия 315, горбуша 301, камбала 298, кальмар 209, хек 199, кета 199, минтай 173, треска 123"></svg>
+        </div>
+        <p class="note" style="margin:0">Бесплатный образец — одна неделя (07–13.11.2024), поэтому динамику цен по нему не построить. Подписчики получают такой файл каждую неделю.</p>
+      </article>
+    </div>
+
+    <div class="eyebrow" style="margin:22px 0 8px">Пример строк из образца РК-Профи</div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Регион продавца</th><th>Товар (как у поставщика)</th><th>Размер</th><th>Цена, ₽/кг</th><th>Продавец</th></tr></thead>
+        <tbody>
+          <tr><td>Владивосток</td><td>Минтай б/г</td><td>2L, 35 см+</td><td class="num">145</td><td>Сириус Сифуд</td></tr>
+          <tr><td>Владивосток</td><td>Горбуша ПБГ, 1 сорт</td><td>—</td><td class="num">410</td><td>Сириус Сифуд</td></tr>
+          <tr><td>Москва</td><td>Хек Hubbsi, тушка</td><td>300–450 г</td><td class="num">340</td><td>Мореодор</td></tr>
+          <tr><td>Москва</td><td>Лосось атлантический с/м с/г Premium</td><td>2–3 кг</td><td class="num">1 050</td><td>Русская рыбная компания</td></tr>
+          <tr><td>Москва</td><td>Креветка магаданская н/р в/м</td><td>60–80 шт/кг</td><td class="num">1 750</td><td>Морской меридиан</td></tr>
+          <tr><td>Москва</td><td>Мидии в половине раковины</td><td>30–40</td><td class="num">380</td><td>Русская рыбная компания</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">В файле 16 столбцов: регион, вид, разделка, размер, упаковка, условия цены, дата, цена, продавец и другие.</p>
+  </section>
+
+  <section>
+    <h2>Какая рыба где есть</h2>
+    <div class="tbl">
+      <table class="cov">
+        <thead><tr><th>Вид / параметр</th><th>Нацрыбресурс<br><span class="tag free">бесплатно</span></th><th>РК-Профи<br><span class="tag paid">платно</span></th></tr></thead>
+        <tbody>
+          <tr><td>Минтай, треска, пикша</td><td class="y">✓</td><td class="y">✓</td></tr>
+          <tr><td>Сельдь, скумбрия, камбала</td><td class="y">✓</td><td class="y">✓</td></tr>
+          <tr><td>Хек</td><td class="n">—</td><td class="y">✓</td></tr>
+          <tr><td>Горбуша, кета, нерка, кижуч</td><td class="n">—</td><td class="y">✓</td></tr>
+          <tr><td>Сёмга, форель</td><td class="p">только Норвегия</td><td class="y">✓</td></tr>
+          <tr><td>Креветки, кальмары, мидии</td><td class="n">—</td><td class="y">✓</td></tr>
+          <tr><td>Разделка: ПБГ, БГ, филе, тушка</td><td class="n">—</td><td class="y">✓</td></tr>
+          <tr><td>Размер, калибр</td><td class="n">—</td><td class="y">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Все найденные источники</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Источник</th><th>Что даёт</th><th>Цена</th><th>Что удалось проверить</th></tr></thead>
+        <tbody>
+          <tr class="group"><td colspan="4">Платные</td></tr>
+          <tr><td class="src"><a href="https://www.fishnet.ru/issues/" target="_blank" rel="noopener">FishNet — РК-Профи</a><span class="sub">fishnet.ru</span></td><td>Excel раз в неделю: вид, разделка, размер, регион, поставщик</td><td class="num">9 000 ₽ / 3 мес.<br>28 800 ₽ / год</td><td><span class="chip ok">Образец открыт и разобран</span></td></tr>
+          <tr><td class="src"><a href="https://fishretail.ru/monitorings" target="_blank" rel="noopener">FishRetail — мониторинг</a><span class="sub">fishretail.ru</span></td><td>Москва — 4 878 позиций, СПб — 3 308, ДФО — 787. Доступ на сайте</td><td class="num">6 500 ₽/мес. за регион</td><td><span class="chip warn">Только описание</span></td></tr>
+          <tr><td class="src">FishRetail — обзоры</td><td>Обзоры рынка и прогнозы цен</td><td class="num">10 170–16 400 ₽/мес.</td><td><span class="chip warn">Только описание</span></td></tr>
+          <tr><td class="src">FishStat</td><td>Маркетплейс, аналитика за входом</td><td>Не опубликована</td><td><span class="chip warn">Нужен запрос</span></td></tr>
+          <tr><td class="src">Expana, Undercurrent, Tridge</td><td>Мировые цены на минтай, треску, лосось</td><td>По запросу, в валюте</td><td><span class="chip warn">Нужен запрос</span></td></tr>
+          <tr><td class="src">Бюллетень НТБ</td><td>Аграрный рынок</td><td class="num">от 10 000 ₽/мес.</td><td><span class="chip no">Рыбы нет</span></td></tr>
+          <tr class="group"><td colspan="4">Бесплатные</td></tr>
+          <tr><td class="src"><a href="https://www.nfr.ru/213/" target="_blank" rel="noopener">Нацрыбресурс</a><span class="sub">nfr.ru</span></td><td>Опт, ₽/кг, раз в неделю, 12 позиций</td><td>0 ₽</td><td><span class="chip ok">42 выпуска скачаны</span></td></tr>
+          <tr><td class="src"><a href="https://rosstat.gov.ru/statistics/price" target="_blank" rel="noopener">Росстат</a></td><td>Цены производителей раз в месяц, только «рыба мороженая», «филе»</td><td>0 ₽</td><td><span class="chip ok">Файлы скачаны</span></td></tr>
+          <tr><td class="src">FishNet, сайт</td><td>Объявления видны всем</td><td>0 ₽</td><td><span class="chip no">Сбор программами запрещён</span></td></tr>
+          <tr><td class="src">НТБ, Петербургская и Восточная биржи</td><td>Регистрируют сделки, публикуют только объёмы</td><td>—</td><td><span class="chip no">Цены не публикуются</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend-chips"><span><span class="chip ok">зелёный</span> данные реально получены</span><span><span class="chip warn">жёлтый</span> известно только по описанию</span><span><span class="chip no">красный</span> данных нет или использовать нельзя</span></div>
+  </section>
+
+  <section>
+    <h2>Ограничения</h2>
+    <div class="warns">
+      <div>Во всех найденных источниках это <b>цены предложений</b> поставщиков или оценки, а не цены сделок.</div>
+      <div>НДС и единицы указаны не везде, поэтому перед сравнением данные нужно чистить.</div>
+      <div>Сайт Нацрыбресурса разрешает только <b>некоммерческое</b> использование материалов.</div>
+      <div>Цены подписок взяты с сайтов 19.10.2026 и могут измениться.</div>
+    </div>
+  </section>
+
+  <footer>
+    Источники: <a href="https://www.nfr.ru/213/" target="_blank" rel="noopener">nfr.ru</a>,
+    <a href="https://rosstat.gov.ru/statistics/price" target="_blank" rel="noopener">rosstat.gov.ru</a>,
+    <a href="https://www.fishnet.ru/issues/" target="_blank" rel="noopener">fishnet.ru</a>,
+    <a href="https://fishretail.ru/shop" target="_blank" rel="noopener">fishretail.ru</a>,
+    <a href="https://fishstat.ru/" target="_blank" rel="noopener">fishstat.ru</a>,
+    <a href="https://www.namex.org/ru/OTCreporting" target="_blank" rel="noopener">namex.org</a>,
+    <a href="https://data.ssb.no/api/v0/en/table/03024" target="_blank" rel="noopener">data.ssb.no</a>.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var d=[["2026-01-12",143,174],["2026-01-19",143,172],["2026-01-26",140,170],["2026-02-02",140,170],["2026-02-09",140,170],["2026-02-16",142,170],["2026-02-24",145,170],["2026-03-02",145,168],["2026-03-10",148,170],["2026-03-16",150,173],["2026-03-23",155,180],["2026-03-30",162,185],["2026-04-06",175,197],["2026-04-13",180,205],["2026-04-20",180,208],["2026-04-27",182,216],["2026-05-04",183,218],["2026-05-12",183,218],["2026-05-18",183,215],["2026-05-25",180,213],["2026-06-01",180,210],["2026-06-08",178,208],["2026-06-15",178,208],["2026-06-22",178,208],["2026-06-29",180,212],["2026-07-06",183,216],["2026-07-13",185,220],["2026-07-20",190,225],["2026-07-27",190,230],["2026-08-03",192,235],["2026-08-10",192,235],["2026-08-17",190,232],["2026-08-24",195,232],["2026-08-31",200,240],["2026-09-07",207,243],["2026-09-14",210,251],["2026-09-21",215,255],["2026-09-28",215,255],["2026-10-05",210,255],["2026-10-12",210,255],["2026-10-19",210,255]];
+  var W=460,H=230,L=36,R=52,T=12,B=26,ymin=120,ymax=270;
+  var t=function(s){return Date.parse(s)}, t0=t("2026-01-01"), t1=t("2026-10-31");
+  var x=function(s){return L+(t(s)-t0)/(t1-t0)*(W-L-R)}, y=function(v){return T+(ymax-v)/(ymax-ymin)*(H-T-B)};
+  var ns="http://www.w3.org/2000/svg", svg=document.getElementById("ch");
+  function el(n,a,txt){var e=document.createElementNS(ns,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;}
+  for(var v=120;v<=270;v+=50){
+    el("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--line)","stroke-width":1});
+    el("text",{x:L-6,y:y(v)+4,"text-anchor":"end"},v);
+  }
+  [["янв",1],["мар",3],["май",5],["июл",7],["сен",9]].forEach(function(m){
+    el("text",{x:x("2026-"+String(m[1]).padStart(2,"0")+"-01"),y:H-6},m[0]);
+  });
+  [[2,"var(--line2)"],[1,"var(--accent)"]].forEach(function(p){
+    var k=p[0],c=p[1],f=d[0],l=d[d.length-1];
+    el("polyline",{points:d.map(function(r){return x(r[0])+","+y(r[k])}).join(" "),fill:"none",stroke:c,"stroke-width":2.5,"stroke-linejoin":"round"});
+    el("circle",{cx:x(f[0]),cy:y(f[k]),r:3,fill:c});
+    el("circle",{cx:x(l[0]),cy:y(l[k]),r:4,fill:c});
+    el("text",{x:x(f[0])+6,y:y(f[k])+(k===2?-8:16),style:"fill:var(--ink);font-weight:600"},f[k]);
+    el("text",{x:x(l[0])+8,y:y(l[k])+4,style:"fill:var(--ink);font-weight:600"},l[k]);
+  });
+})();
+(function(){
+  var b=[["Креветки",936],["Форель",392],["Скумбрия",315],["Горбуша",301],["Камбала",298],["Кальмар",209],["Хек",199],["Кета",199],["Минтай",173],["Треска",123]];
+  var W=460,H=230,L=78,R=40,T=4,rowH=(H-T)/b.length,max=1000;
+  var ns="http://www.w3.org/2000/svg", svg=document.getElementById("bars");
+  function el(n,a,txt){var e=document.createElementNS(ns,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;}
+  b.forEach(function(r,i){
+    var yy=T+i*rowH, w=(W-L-R)*r[1]/max;
+    el("text",{x:L-8,y:yy+rowH/2+4,"text-anchor":"end",style:"fill:var(--ink)"},r[0]);
+    el("rect",{x:L,y:yy+4,width:Math.max(w,2),height:rowH-8,rx:3,fill:"var(--paid)"});
+    el("text",{x:L+w+6,y:yy+rowH/2+4,style:"fill:var(--ink);font-weight:600"},r[1]);
+  });
+})();
+</script>
+</body>
+</html>
